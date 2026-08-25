@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ComparaAutos · Encuentra tu próximo cero kilómetro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Chile · MVP</div>
+    <h1>Encuentra tu próximo<br>auto cero kilómetro</h1>
+    <p class="sub">Filtra por lo que realmente te importa —asientos, seguridad, transmisión, garantía— y compara el costo real por kilómetro antes de contactar al concesionario.</p>
+
+    <div class="controls">
+      <div class="field">
+        <label>Bencina 95 ($/litro)</label>
+        <input type="number" id="priceGas" value="1436" step="1">
+      </div>
+      <div class="field">
+        <label>Electricidad ($/kWh)</label>
+        <input type="number" id="priceKwh" value="125" step="1">
+      </div>
+      <div class="field" style="flex:2;min-width:220px;">
+        <label>Km que manejas al día: <span id="kmDayLabel">40 km</span></label>
+        <input type="range" id="kmDay" min="5" max="200" step="5" value="40">
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <h2>Catálogo</h2>
+    <p class="section-desc">Todos los valores se recalculan en vivo según los parámetros de arriba.</p>
+
+    <div class="filter-bar">
+      <div class="chip-group" id="typeChips">
+        <span class="chip active" data-type="all">Todos</span>
+        <span class="chip" data-type="BEV">Eléctrico</span>
+        <span class="chip" data-type="HEV">Híbrido</span>
+        <span class="chip" data-type="PHEV">Híbrido enchufable</span>
+      </div>
+      <div class="field" style="min-width:130px;">
+        <label>Asientos mín.</label>
+        <select id="fSeats">
+          <option value="0">Cualquiera</option>
+          <option value="5">5+</option>
+          <option value="7">7+</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:130px;">
+        <label>Transmisión</label>
+        <select id="fTransmission">
+          <option value="">Cualquiera</option>
+          <option value="Automática">Automática</option>
+          <option value="Manual">Manual</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:150px;">
+        <label>Airbags mín.</label>
+        <select id="fAirbags">
+          <option value="0">Cualquiera</option>
+          <option value="2">2+</option>
+          <option value="6">6+</option>
+          <option value="7">7+</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:150px;">
+        <label>Precio máximo</label>
+        <input type="number" id="fMaxPrice" placeholder="Sin límite" step="500000">
+      </div>
+      <div class="field" style="min-width:150px;">
+        <label>Ordenar por</label>
+        <select id="fSort">
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="cost-asc">Costo/km: menor a mayor</option>
+          <option value="safety-desc">Seguridad: mejor primero</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="results-count" id="resultsCount">Cargando catálogo…</div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<div class="compare-bar" id="compareBar">
+  <div class="wrap">
+    <span class="compare-names" id="compareNames">0 autos seleccionados para comparar</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn small" id="clearCompare">Limpiar</button>
+      <button class="btn primary small" id="openCompare">Comparar ahora</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <footer>
+    ComparaAutos MVP · Precios de lista referenciales, agosto 2026. Verifica el valor final y disponibilidad con el concesionario. Esta herramienta no procesa seguros ni créditos reales — solo simula costos para ayudarte a decidir.
+    <br><a href="/admin.html">Panel de administración</a>
+  </footer>
+</div>
+
+<!-- ===================== CAR DETAIL MODAL ===================== -->
+<div class="modal-overlay" id="detailOverlay">
+  <div class="modal" id="detailModal"></div>
+</div>
+
+<!-- ===================== COMPARE MODAL ===================== -->
+<div class="modal-overlay" id="compareOverlay">
+  <div class="modal" style="max-width:920px;">
+    <button class="modal-close" id="closeCompare">&times;</button>
+    <h3>Comparación lado a lado</h3>
+    <div style="overflow-x:auto;">
+      <table class="compare-table" id="compareTable"></table>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

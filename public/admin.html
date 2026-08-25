@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · ComparaAutos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  .tabbar{display:flex;gap:8px;margin-bottom:18px;}
+  .tabbtn{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:9px 16px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink-dim);cursor:pointer;}
+  .tabbtn.active{background:var(--bev);color:#0d1a19;border-color:var(--bev);}
+  .view{display:none;}
+  .view.active{display:block;}
+  table.leads{width:100%;border-collapse:collapse;font-size:13px;}
+  table.leads th,table.leads td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  table.leads th{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);text-transform:uppercase;}
+  .status-select{background:var(--panel-2);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 8px;font-family:'IBM Plex Mono',monospace;font-size:12px;}
+  .car-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .car-form{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:18px;}
+  .car-form .grid2{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:700px){.car-form .grid2{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Panel interno</div>
+    <h1>Administración</h1>
+    <p class="sub">Revisa los leads que llegan desde el catálogo y administra el inventario de autos publicados.</p>
+  </div>
+</header>
+
+<div class="wrap" id="loginGate">
+  <section>
+    <h2>Ingresar</h2>
+    <p class="section-desc">Usa las credenciales definidas en tu archivo .env (ADMIN_USER / ADMIN_PASS).</p>
+    <div class="controls" style="max-width:360px;">
+      <div class="field"><label>Usuario</label><input type="text" id="gateUser"></div>
+      <div class="field"><label>Contraseña</label><input type="password" id="gatePass"></div>
+    </div>
+    <button class="btn primary" id="gateBtn" style="margin-top:12px;max-width:200px;">Entrar</button>
+    <p class="form-msg err" id="gateError" style="display:none;"></p>
+  </section>
+</div>
+
+<div class="wrap" id="adminContent" style="display:none;">
+  <section>
+    <div class="tabbar">
+      <button class="tabbtn active" data-view="leadsView">Leads</button>
+      <button class="tabbtn" data-view="carsView">Inventario</button>
+    </div>
+
+    <!-- LEADS -->
+    <div class="view active" id="leadsView">
+      <h2>Leads recibidos</h2>
+      <p class="section-desc" id="leadsCount">Cargando…</p>
+      <div style="overflow-x:auto;">
+        <table class="leads" id="leadsTable"></table>
+      </div>
+    </div>
+
+    <!-- CARS -->
+    <div class="view" id="carsView">
+      <h2>Inventario</h2>
+      <p class="section-desc">Agrega o edita modelos disponibles. Los campos de consumo cambian según el tipo de vehículo.</p>
+
+      <div class="car-form">
+        <h3 id="formTitle">Agregar auto</h3>
+        <input type="hidden" id="cEditId">
+        <div class="grid2" style="margin-bottom:10px;">
+          <div class="field"><label>ID único (slug)</label><input type="text" id="cId" placeholder="ej: toyota-corolla-hev"></div>
+          <div class="field"><label>Nombre</label><input type="text" id="cName"></div>
+          <div class="field"><label>Marca</label><input type="text" id="cBrand"></div>
+          <div class="field"><label>Segmento</label><input type="text" id="cSegment"></div>
+          <div class="field">
+            <label>Tipo</label>
+            <select id="cType">
+              <option value="BEV">Eléctrico (BEV)</option>
+              <option value="HEV">Híbrido (HEV)</option>
+              <option value="PHEV">Híbrido enchufable (PHEV)</option>
+            </select>
+          </div>
+          <div class="field"><label>Precio (CLP)</label><input type="number" id="cPrice" step="10000"></div>
+          <div class="field"><label>kWh/100km (solo BEV)</label><input type="number" id="cKwh100" step="0.1"></div>
+          <div class="field"><label>km/L (HEV y modo combustión PHEV)</label><input type="number" id="cKml" step="0.1"></div>
+          <div class="field"><label>kWh/100km eléctrico (solo PHEV)</label><input type="number" id="cEvKwh100" step="0.1"></div>
+          <div class="field"><label>Autonomía eléctrica km (solo PHEV)</label><input type="number" id="cEvRange" step="1"></div>
+          <div class="field"><label>Asientos</label><input type="number" id="cSeats" value="5"></div>
+          <div class="field">
+            <label>Transmisión</label>
+            <select id="cTransmission"><option>Automática</option><option>Manual</option></select>
+          </div>
+          <div class="field"><label>Airbags</label><input type="number" id="cAirbags" value="2"></div>
+          <div class="field"><label>Garantía (años)</label><input type="number" id="cWarrantyYears" value="3"></div>
+          <div class="field"><label>Garantía (km)</label><input type="number" id="cWarrantyKm" value="100000"></div>
+          <div class="field"><label>Procedencia</label><input type="text" id="cOrigin"></div>
+          <div class="field"><label>Estrellas Latin NCAP</label><input type="number" id="cSafetyStars" min="0" max="5"></div>
+        </div>
+        <button class="btn primary" id="saveCarBtn">Guardar</button>
+        <button class="btn small" id="cancelEditBtn" style="display:none;">Cancelar edición</button>
+      </div>
+
+      <div id="carsList"></div>
+    </div>
+  </section>
+</div><!-- /adminContent -->
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
