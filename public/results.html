@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultados · ComparaAutos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/results.css">
+</head>
+<body>
+
+<header class="hero results-hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Tu búsqueda</div>
+    <div class="profile-banner" id="profileBanner"></div>
+    <a href="/onboarding.html" class="edit-search-link">✎ Editar búsqueda</a>
+  </div>
+</header>
+
+<div class="wrap results-layout">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <h3>Filtros</h3>
+
+    <div class="filter-group">
+      <span class="filter-label">Tipo de motor</span>
+      <label class="check-row"><input type="checkbox" class="fType" value="BEV" checked> Eléctrico</label>
+      <label class="check-row"><input type="checkbox" class="fType" value="HEV" checked> Híbrido</label>
+      <label class="check-row"><input type="checkbox" class="fType" value="PHEV" checked> Híbrido enchufable</label>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Carrocería</span>
+      <label class="check-row"><input type="checkbox" class="fSeg" value="City car" checked> City car</label>
+      <label class="check-row"><input type="checkbox" class="fSeg" value="Hatchback" checked> Hatchback</label>
+      <label class="check-row"><input type="checkbox" class="fSeg" value="Sedán" checked> Sedán</label>
+      <label class="check-row"><input type="checkbox" class="fSeg" value="SUV" checked> SUV</label>
+      <label class="check-row"><input type="checkbox" class="fSeg" value="Pick up" checked> Pick up</label>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Asientos mínimos</span>
+      <select id="fSeats">
+        <option value="0">Cualquiera</option>
+        <option value="5">5+</option>
+        <option value="7">7+</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Airbags mínimos</span>
+      <select id="fAirbags">
+        <option value="0">Cualquiera</option>
+        <option value="2">2+</option>
+        <option value="6">6+</option>
+        <option value="7">7+</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Precio de lista máximo</span>
+      <input type="number" id="fMaxPrice" placeholder="Sin límite" step="500000">
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Parámetros de energía</span>
+      <label class="mini-label">Bencina 95 ($/L)</label>
+      <input type="number" id="priceGas" value="1436" step="1">
+      <label class="mini-label" style="margin-top:8px;">Electricidad ($/kWh)</label>
+      <input type="number" id="priceKwh" value="125" step="1">
+    </div>
+  </aside>
+
+  <!-- ===================== RESULTS ===================== -->
+  <main class="results-main">
+    <div class="results-top">
+      <span class="results-count" id="resultsCount">Cargando…</span>
+      <div class="field" style="min-width:220px;">
+        <select id="fSort">
+          <option value="budget">Mejor ajuste a tu presupuesto</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="cost-asc">Costo/km: menor a mayor</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="compare-bar" id="compareBar">
+  <div class="wrap">
+    <span class="compare-names" id="compareNames">0 autos seleccionados para comparar</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn small" id="clearCompare">Limpiar</button>
+      <button class="btn primary small" id="openCompare">Comparar ahora</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <footer>
+    ComparaAutos MVP · Precios de lista referenciales, agosto 2026. Verifica el valor final y disponibilidad con el concesionario. Esta herramienta no procesa seguros ni créditos reales — solo simula costos para ayudarte a decidir.
+  </footer>
+</div>
+
+<div class="modal-overlay" id="detailOverlay"><div class="modal" id="detailModal"></div></div>
+<div class="modal-overlay" id="compareOverlay">
+  <div class="modal" style="max-width:920px;">
+    <button class="modal-close" id="closeCompare">&times;</button>
+    <h3>Comparación lado a lado</h3>
+    <div style="overflow-x:auto;"><table class="compare-table" id="compareTable"></table></div>
+  </div>
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/results.js"></script>
+</body>
+</html>
